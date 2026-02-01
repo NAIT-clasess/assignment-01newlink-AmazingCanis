@@ -9,6 +9,9 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
+    private Texture2D _stillSprite;
+    private Texture2D _background;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -18,6 +21,9 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        _graphics.PreferredBackBufferWidth = 640;
+        _graphics.PreferredBackBufferHeight = 320;
+        _graphics.ApplyChanges();
         // TODO: Add your initialization logic here
 
         base.Initialize();
@@ -26,6 +32,9 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        _stillSprite = Content.Load<Texture2D>("sprite");
+        _background = Content.Load<Texture2D>("background");
 
         // TODO: use this.Content to load your game content here
     }
@@ -44,8 +53,15 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin();
 
+        // TODO: Add your drawing code here
+        
+        _spriteBatch.Draw(_background, new Rectangle(0, 0, 640, 320), Color.White);
+
+        _spriteBatch.Draw(_stillSprite, new Rectangle(0, 0, 200, 200), Color.White);
+
+        _spriteBatch.End();
         base.Draw(gameTime);
     }
 }
