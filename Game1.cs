@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SimpleAnimationNamespace;
 
 namespace Assignment_01;
 
@@ -19,6 +20,8 @@ public class Game1 : Game
     private Vector2 _position;
 
     private float _speed;
+
+    private SimpleAnimation _walkingSprite;
 
     public Game1()
     {
@@ -46,6 +49,8 @@ public class Game1 : Game
         _stillSprite = Content.Load<Texture2D>("sprite");
         _background = Content.Load<Texture2D>("background");
         _ArialFont = Content.Load<SpriteFont>("SystemArialFont");
+        _walkingSprite = new SimpleAnimation(
+            Content.Load<Texture2D>("WalkingSprite"), 128, 128, 4, 8f);
         _rect = new Texture2D(GraphicsDevice, 1, 1);
         _rect.SetData(new[] { Color.White });
 
@@ -57,6 +62,7 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
         Move(gameTime);
+        _walkingSprite.Update(gameTime);
         // TODO: Add your update logic here
 
         base.Update(gameTime);
@@ -78,6 +84,8 @@ public class Game1 : Game
         _spriteBatch.Draw(_rect, MovingRectangle, Color.White);
 
         _spriteBatch.DrawString(_ArialFont, "Hello, MonoGame!", new Vector2(220, 10), Color.Black);
+
+        _walkingSprite.Draw(_spriteBatch, new Vector2(100,200), SpriteEffects.None);
 
         _spriteBatch.End();
         base.Draw(gameTime);
