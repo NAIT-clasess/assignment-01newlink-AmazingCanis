@@ -12,6 +12,8 @@ public class Game1 : Game
     private Texture2D _stillSprite;
     private Texture2D _background;
 
+    private SpriteFont _ArialFont;
+
     private Texture2D _rect;
 
     private Vector2 _position;
@@ -43,6 +45,7 @@ public class Game1 : Game
 
         _stillSprite = Content.Load<Texture2D>("sprite");
         _background = Content.Load<Texture2D>("background");
+        _ArialFont = Content.Load<SpriteFont>("SystemArialFont");
         _rect = new Texture2D(GraphicsDevice, 1, 1);
         _rect.SetData(new[] { Color.White });
 
@@ -73,6 +76,8 @@ public class Game1 : Game
         _spriteBatch.Draw(_stillSprite, new Rectangle(0, 0, 200, 200), Color.White);
         
         _spriteBatch.Draw(_rect, MovingRectangle, Color.White);
+
+        _spriteBatch.DrawString(_ArialFont, "Hello, MonoGame!", new Vector2(220, 10), Color.Black);
 
         _spriteBatch.End();
         base.Draw(gameTime);
