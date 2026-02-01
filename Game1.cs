@@ -12,6 +12,12 @@ public class Game1 : Game
     private Texture2D _stillSprite;
     private Texture2D _background;
 
+    private Texture2D _rect;
+
+    private Vector2 _position;
+
+    private float _speed;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -24,6 +30,8 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = 640;
         _graphics.PreferredBackBufferHeight = 320;
         _graphics.ApplyChanges();
+        _position = new Vector2(10, 50);
+        _speed = 120f;
         // TODO: Add your initialization logic here
 
         base.Initialize();
@@ -35,6 +43,8 @@ public class Game1 : Game
 
         _stillSprite = Content.Load<Texture2D>("sprite");
         _background = Content.Load<Texture2D>("background");
+        _rect = new Texture2D(GraphicsDevice, 1, 1);
+        _rect.SetData(new[] { Color.White });
 
         // TODO: use this.Content to load your game content here
     }
@@ -43,7 +53,7 @@ public class Game1 : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
+        Move(gameTime);
         // TODO: Add your update logic here
 
         base.Update(gameTime);
@@ -56,12 +66,22 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
         // TODO: Add your drawing code here
+        Rectangle MovingRectangle = new Rectangle((int)_position.X, (int)_position.Y, 100, 100);
         
         _spriteBatch.Draw(_background, new Rectangle(0, 0, 640, 320), Color.White);
 
         _spriteBatch.Draw(_stillSprite, new Rectangle(0, 0, 200, 200), Color.White);
+        
+        _spriteBatch.Draw(_rect, MovingRectangle, Color.White);
 
         _spriteBatch.End();
         base.Draw(gameTime);
+    }
+        private void Move(GameTime gameTime)
+    {
+        float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        _position.X += _speed * seconds;
+
+        base.Update(gameTime);
     }
 }
